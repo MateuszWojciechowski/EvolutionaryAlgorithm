@@ -25,6 +25,7 @@ public class InputReader {
 	}
 	
 	public static void main(String[] args) {
+		System.out.println("Podaj ścieżkę do pliku opisującego sieć:");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String path = "";
 		try {
@@ -39,10 +40,20 @@ public class InputReader {
 	
 	public Network read() {
 		Link[] links;
+		Demand[] demands;
 		try {
 			String currentLine;
-			currentLine = bufferedReader.readLine();
-			links = new Link[Integer.parseInt(currentLine)];
+			
+			//wczytanie liczby łączy
+			while(true) {
+				currentLine = bufferedReader.readLine();
+				if(!currentLine.isEmpty()) {
+					links = new Link[Integer.parseInt(currentLine)];
+					break;
+				}
+			}
+			
+			//wczytanie łączy do tablicy
 			int lineNum = 0;
 			while(!(currentLine = bufferedReader.readLine()).equals("-1")) {
 				String[] line = currentLine.split(" ");
@@ -57,12 +68,58 @@ public class InputReader {
 				}
 			}
 //			TEST WCZYTYWANIA ŁĄCZY
-//			for(int i=0; i < links.length; i++) {
-//				System.out.println(links[i].testFunction());
-//			}
+			System.out.println("---ŁĄCZA---");
+			for(int i=0; i < links.length; i++) {
+				System.out.println(links[i].testFunction());
+			}
 			
+			//wczytanie liczby zapotrzebowań
+			while(true) {
+				currentLine = bufferedReader.readLine();
+				if(!currentLine.isEmpty()) {
+					demands = new Demand[Integer.parseInt(currentLine)];
+					break;
+				}
+			}
 			
-			return new Network(new Demand[2], links);
+			//wczytywanie zapotrzebowań
+			for(int i=0; i < demands.length; i++) {
+				int startID, endID, volume;
+				while(true) {
+					currentLine = bufferedReader.readLine();
+					if(!currentLine.isEmpty()) {
+						String[] line = currentLine.split(" ");
+						startID = Integer.parseInt(line[0]);
+						endID = Integer.parseInt(line[1]);
+						volume = Integer.parseInt(line[2]);
+						break;
+					}
+				}
+				
+				//wczytanie ścieżek zapotrzebowań
+				currentLine = bufferedReader.readLine();
+				int pathsNum = Integer.parseInt(currentLine);
+				DemandPath[] paths = new DemandPath[pathsNum];
+				for(int j=0; j < pathsNum; j++) {
+					currentLine = bufferedReader.readLine();
+					String[] line = currentLine.split(" ");
+					int pathID = Integer.parseInt(line[0]);
+					int[] path = new int[line.length - 1];
+					for(int k=1; k < line.length; k++) {
+						path[k-1] = Integer.parseInt(line[k]);
+					}
+					paths[j] = new DemandPath(pathID, path);
+				}
+				demands[i] = new Demand(startID, endID, volume, paths);
+			}
+			
+			//TEST WCZYTANIA ZAPOTRZEBOWAŃ
+			System.out.println("---ZAPOTRZEBOWANIA---");
+			for(int i=0; i < demands.length; i++) {
+				System.out.println(demands[i].testFunction());
+			}
+			
+			return new Network(demands, links);
 		} catch(IOException e) {
 			System.out.println(e.getMessage());
 		}

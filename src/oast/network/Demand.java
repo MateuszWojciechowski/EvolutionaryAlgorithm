@@ -1,12 +1,24 @@
 package oast.network;
 
+import java.util.ArrayList;
+
 public class Demand {
+	//TODO path
 	private int startNode, endNode, volume;
-	private int[][] path;	//pierwszy indeks to numer ścieżki, drugi to przebieg tej ścieżki w postaci ID łączy
-	public Demand(int startID, int endID, int volume, int[][] path) {
+	private DemandPath[] paths;
+
+	public Demand(int startID, int endID, int volume, DemandPath[] paths) {
 		startNode = startID;
 		endNode = endID;
 		this.volume = volume;
-		this.path = path;
+		this.paths = paths;
+	}
+	
+	public String testFunction() {
+		String string = startNode + " " + endNode + " " + volume + "\n\n";
+		for(int i=0; i < paths.length; i++) {
+			string += paths[i].testFunction();
+		}
+		return string;
 	}
 }
