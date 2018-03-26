@@ -24,20 +24,6 @@ public class InputReader {
 		bufferedReader = new BufferedReader(fileReader);
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("Podaj ścieżkę do pliku opisującego sieć:");
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		String path = "";
-		try {
-			path = br.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		InputReader reader = new InputReader(path);
-		reader.read();
-	}
-	
 	public Network read() {
 		Link[] links;
 		Demand[] demands;

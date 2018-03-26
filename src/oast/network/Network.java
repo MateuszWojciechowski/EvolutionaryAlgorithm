@@ -10,4 +10,12 @@ public class Network {
 		this.demands = demands;
 		this.links = links;
 	}
+
+	public Demand[] getDemands() {
+	    return demands;
+    }
+
+    public Link[] getLinks() {
+        return links;
+    }
 }

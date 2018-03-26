@@ -3,7 +3,6 @@ package oast.network;
 import java.util.ArrayList;
 
 public class Demand {
-	//TODO path
 	private int startNode, endNode, volume;
 	private DemandPath[] paths;
 
@@ -21,4 +20,12 @@ public class Demand {
 		}
 		return string;
 	}
+
+	public DemandPath[] getPaths() {
+		return paths;
+	}
+
+    public int getVolume() {
+        return volume;
+    }
 }
