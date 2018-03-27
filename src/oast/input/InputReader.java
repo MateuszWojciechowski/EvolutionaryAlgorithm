@@ -49,7 +49,7 @@ public class InputReader {
 					int fibresNum = Integer.parseInt(line[2]);
 					float fibreCost = Float.parseFloat(line[3]);
 					int lambdas = Integer.parseInt(line[4]);
-					links[lineNum] = new Link(startID, endID, fibresNum, fibreCost, lambdas);
+					links[lineNum] = new Link(lineNum + 1, startID, endID, fibresNum, fibreCost, lambdas);
 					lineNum++;
 				}
 			}

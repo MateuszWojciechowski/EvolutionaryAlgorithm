@@ -8,10 +8,13 @@ public class DemandPath {
 		public int getLength() {
 			return length;
 		}
-		
 		private ArrayList<Integer> route = new ArrayList<Integer>();
-		
-		public DemandPath(int ID, int... links) {
+
+	public ArrayList<Integer> getRoute() {
+		return route;
+	}
+
+	public DemandPath(int ID, int... links) {
 			for(int i=0; i < links.length; i++) {
 				route.add(links[i]);
 			}
