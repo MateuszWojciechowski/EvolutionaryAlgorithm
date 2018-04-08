@@ -30,4 +30,8 @@ public class DemandPath {
 			string += "\n";
 			return string;
 		}
+
+		public int getID() {
+			return ID;
+		}
 }

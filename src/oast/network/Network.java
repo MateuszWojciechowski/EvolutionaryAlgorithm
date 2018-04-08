@@ -18,4 +18,12 @@ public class Network {
     public Link[] getLinks() {
         return links;
     }
+
+    public int getLinksNumber() {
+		return links.length;
+	}
+
+	public int getDemandsNumber() {
+		return demands.length;
+	}
 }

@@ -1,9 +1,11 @@
 package oast.program;
 
+import oast.algorithm.Chromosome;
 import oast.algorithm.Evolution;
 import oast.algorithm.Population;
 import oast.input.InputReader;
 import oast.network.Network;
+import oast.output.OutputWriter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.util.Random;
 public class Main {
     public static Random rnd;
     public static Network network;
+    public static Chromosome solution;
 
     public static void main(String[] args) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,6 +41,9 @@ public class Main {
 
         //algorytm
         Population population = new Population(1000, network.getDemands());
-        Evolution.start(population);
+        solution = Evolution.start(population);
+
+        OutputWriter writer = new OutputWriter();
+        writer.write();
     }
 }

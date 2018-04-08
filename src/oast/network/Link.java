@@ -49,4 +49,8 @@ public class Link {
 	public int getCapacity() {
 		return fibreNum*lambdasInFibre;
 	}
+
+	public int getLinkID() {
+		return linkID;
+	}
 }

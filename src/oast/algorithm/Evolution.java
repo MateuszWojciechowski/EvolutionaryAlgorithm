@@ -23,7 +23,7 @@ public class Evolution {
         return fitness;
     }
 
-    public static void start(Population p) {
+    public static Chromosome start(Population p) {
         boolean stopCriterion = false;
         int populationNum = p.getChromosomesNumber();
         ArrayList<Chromosome> chromosomes = p.getChromosomes();
@@ -37,9 +37,9 @@ public class Evolution {
             5. Selekcja najlepszych.
             6. Kryterium stopu.
              */
-            System.out.println("===========");
-            System.out.println("Generation" + generation);
-            System.out.println("===========");
+            System.out.println("=============");
+            System.out.println("Generation " + generation);
+            System.out.println("-------------");
             //1
             Collections.shuffle(chromosomes, Main.rnd);
             //2
@@ -76,5 +76,6 @@ public class Evolution {
                 stopCriterion = true;
             generation++;
         }
+        return chromosomes.get(0);
     }
 }
