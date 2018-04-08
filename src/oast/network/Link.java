@@ -38,10 +38,15 @@ public class Link {
 				}
 			}
 		}
-		return new Double(Math.ceil(linkLoad/lambdasInFibre)).intValue();
+//		return new Double(Math.ceil(linkLoad/lambdasInFibre)).intValue();
+		return linkLoad;
 	}
 
 	public int getFibreNum() {
 		return fibreNum;
+	}
+
+	public int getCapacity() {
+		return fibreNum*lambdasInFibre;
 	}
 }
