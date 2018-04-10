@@ -5,10 +5,14 @@ import oast.program.Main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 public class Evolution {
     public static double crossoverProbability = 1;
     public static double mutationProbability = 1;
+    public enum StopCriterion { Time, GenerationsNumber, MutationsNumber, LackOfImprovement, ProblemSolved }
+    public static StopCriterion stopCriterion = StopCriterion.Time;
+    public static int stopCriterionNumber = 0;
 
     public static double fitnessFunction(Chromosome chromosome) {
         Link[] links = Main.network.getLinks();
@@ -24,11 +28,16 @@ public class Evolution {
     }
 
     public static Chromosome start(Population p) {
-        boolean stopCriterion = false;
+        long startTime = System.currentTimeMillis();
+        boolean stop = false;
         int populationNum = p.getChromosomesNumber();
         ArrayList<Chromosome> chromosomes = p.getChromosomes();
         int generation = 1;
-        while(!stopCriterion) {
+        int mutations = 0;
+        int crossovers = 0;
+        int generationsWithoutImprovement = 0;
+        double previousFitness = 0;
+        while(!stop) {
             /*
             1. Tworzymy zbiór par chromosomów
             2. Crossover par chromosomów z danym prawdpopodobieństwem
@@ -44,10 +53,11 @@ public class Evolution {
             Collections.shuffle(chromosomes, Main.rnd);
             //2
             Population offsprings = new Population();
-            for(int i=0; i < chromosomes.size()/2; i=i+2) {
+            for(int i=0; i < chromosomes.size(); i=i+2) {
                 float random = Main.rnd.nextFloat();
                 if(random < crossoverProbability) {
                     Chromosome.crossover(chromosomes.get(i), chromosomes.get(i+1), offsprings);
+                    crossovers++;
                 }
             }
             chromosomes.addAll(offsprings.getChromosomes());
@@ -58,22 +68,49 @@ public class Evolution {
                     Gene[] genes = chromosomes.get(i).getGenes();
                     genes[Main.rnd.nextInt(chromosomes.get(i).getGenesNum())].mutate();
                     chromosomes.set(i, new Chromosome(genes));
+                    mutations++;
                 }
             }
             //4
             Collections.sort(chromosomes, p);
             //5
-            for(int i=populationNum; i < chromosomes.size(); i++) {
-                chromosomes.remove(i);
+            int numberOfChromosomes = chromosomes.size();
+            for(int i=populationNum; i < numberOfChromosomes; i++) {
+                chromosomes.remove(populationNum);
             }
             //6
-//            for(int i=0; i < chromosomes.size(); i++) {
-//                System.out.println(i+1 + ": " + fitnessFunction(chromosomes.get(i)));
-//            }
             double fitness = fitnessFunction(chromosomes.get(0));
-            System.out.println("Fitness: " + fitness);
+            System.out.println("Best chromosome fitness: " + fitness);
+            System.out.println("Crossovers: " + crossovers);
+            System.out.println("Mutations: " + mutations);
             if(fitness <= 0)
-                stopCriterion = true;
+                stop = true;
+            switch(stopCriterion) {
+                case Time:
+                    if(System.currentTimeMillis() - startTime > stopCriterionNumber*1000)
+                        stop = true;
+                    break;
+                case GenerationsNumber:
+                    if(generation >= stopCriterionNumber)
+                        stop = true;
+                    break;
+                case MutationsNumber:
+                    if(mutations > stopCriterionNumber)
+                        stop = true;
+                    break;
+                case LackOfImprovement:
+                    if(generation > 1) {
+                        if(previousFitness <= fitness)
+                            generationsWithoutImprovement++;
+                        else
+                            generationsWithoutImprovement = 0;
+                    }
+                    if(generationsWithoutImprovement >= stopCriterionNumber)
+                        stop = true;
+                    break;
+                default:
+            }
+            previousFitness = fitness;
             generation++;
         }
         return chromosomes.get(0);
