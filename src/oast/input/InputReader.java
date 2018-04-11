@@ -54,10 +54,10 @@ public class InputReader {
 				}
 			}
 //			TEST WCZYTYWANIA ŁĄCZY
-			System.out.println("---ŁĄCZA---");
-			for(int i=0; i < links.length; i++) {
-				System.out.println(links[i].testFunction());
-			}
+//			System.out.println("---ŁĄCZA---");
+//			for(int i=0; i < links.length; i++) {
+//				System.out.println(links[i].testFunction());
+//			}
 			
 			//wczytanie liczby zapotrzebowań
 			while(true) {
@@ -100,10 +100,10 @@ public class InputReader {
 			}
 			
 			//TEST WCZYTANIA ZAPOTRZEBOWAŃ
-			System.out.println("---ZAPOTRZEBOWANIA---");
-			for(int i=0; i < demands.length; i++) {
-				System.out.println(demands[i].testFunction());
-			}
+//			System.out.println("---ZAPOTRZEBOWANIA---");
+//			for(int i=0; i < demands.length; i++) {
+//				System.out.println(demands[i].testFunction());
+//			}
 			
 			return new Network(demands, links);
 		} catch(IOException e) {
