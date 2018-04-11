@@ -2,6 +2,8 @@ package oast.network;
 
 import oast.algorithm.Chromosome;
 import oast.algorithm.Gene;
+import oast.bruteforce.Solution;
+import oast.bruteforce.SolutionDemand;
 import oast.program.Main;
 
 import java.util.ArrayList;
@@ -33,6 +35,26 @@ public class Link {
 				for(int i=0; i < route.size(); i++) {
 					if(route.get(i) == linkID) {
 						int load = genes[demand].getAllocation()[path];
+						linkLoad += load;
+					}
+				}
+			}
+		}
+//		return new Double(Math.ceil(linkLoad/lambdasInFibre)).intValue();
+		return linkLoad;
+	}
+	//funkcja dla bruteforce
+	public int getLinkLoad(Solution solution) {
+		int linkLoad = 0;
+		SolutionDemand[] solutionDemands = solution.getSolutionDemands();
+		Demand[] demands = Main.network.getDemands();
+		for(int demand=0; demand < demands.length; demand++) {
+			DemandPath[] paths = demands[demand].getPaths();
+			for(int path=0; path < paths.length; path++) {
+				ArrayList<Integer> route = paths[path].getRoute();
+				for(int i=0; i < route.size(); i++) {
+					if(route.get(i) == linkID) {
+						int load = solutionDemands[demand].getAllocation()[path];
 						linkLoad += load;
 					}
 				}
